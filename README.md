@@ -2,26 +2,33 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.3.
 
-## Development server
+## How to run the solution
+1. git clone https://github.com/pvitalii/pidhornyi_angular
+2. cd pidhornyi_angular
+3. ng serve
+4. project will start on http://localhost:4200
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Functionality
 
-## Code scaffolding
+1. App header has two navigation links: Product List and Tags, which redirect to pages with list of products and tag management accordingly;
+2. Tag management page displays list of tag components which have buttons to edit and delete each tag from list and button to add a new tag. Editing takes place directly in the tag component, user can pick color for a tag and change the name of it.
+3. Product List page displays component by which user can filter products by associated tags and list of products, which consists of product item components with basic information about product by click on which user can reach Product Detail Page. Also in products list there is a button to add a new product, which redirect user to the Add Product page;
+4. Product Detail page displays all information about the product and has two action buttons to edit and delete product. By click on edit button user will be redirected to the Edit Product page, which displays pre-filled form with an information about appropriate product.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Notes
 
-## Build
+### 1. Project structure
+I decided to split my project on 3 folders: core, features, shared. Core folder consists of essential services, interceptors, non-reusable components, etc, that are used throughout the application. Feature folder consists of two main features of the project - product and tag, each feature has own folder, which consists of associated with a feature components, interfaces, pages, services. Shared folder groups together reusable components, directives and utils services.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### 2. HTTP
+In the application I simulated server by angular in-memory-db-service, which allows to fetch data by http throughout the application. Server simulating is not an ideal solution due to absence of an opportunity to set relations between entities, so because of this sometimes it is needed to make two http requests (first to fetch tags and then to fetch products in product detail page for example), instead of making only one. Also i have two http interceptors - the first one sets isLoading to true during the request, so after every http request will be shown loading spinner, the second one - interceptor for error handling, this interceptor very basic and redirects user to a page 404 in case of appropriate error and to a 500 page in other cases.
 
-## Running unit tests
+### 3. UI
+For the better user interface i used Angular Material library.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### 4. Other features
+Besides the loading-spinner i have mentioned before, i also provided some additional features: 
+  - tag filters are storing in url params, so after page has been reloaded user will see products with the same tags before reloading;
+  - dialog to confirm action: after every action with product, such as edit, add, delete, will be shown a dialog modal, on which user should confirm his action.
+  - on the main page, when screen gets narrower, filters hides in hidden sidebar which diplays after appropriate button has been pressed.   
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
