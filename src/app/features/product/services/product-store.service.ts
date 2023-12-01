@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
 import { ProductApiService } from "./product-api.service";
-import { BehaviorSubject, Subject, catchError, map } from "rxjs";
+import { BehaviorSubject, map } from "rxjs";
 import { Product } from "../interfaces/product.model";
 import { Tag } from "../../tag/interfaces/tag.model";
 import { TagApiService } from "app/features/tag/services/tag-api.service";
+import { ProductPayload } from "../interfaces/product-payload";
 
 @Injectable({
   providedIn: 'root'
@@ -47,13 +48,13 @@ export class ProductStoreService {
     });
   }
 
-  public addProduct(product: Omit<Product, "id">) {
+  public addProduct(product: ProductPayload) {
     return this.productApiService.addProduct(product).subscribe((product) => {
       this._products$.next([...this.products, product]);      
     });
   }
 
-  public updateProduct(id: number, data: Omit<Product, 'id'>) {
+  public updateProduct(id: number, data: ProductPayload) {
     return this.productApiService.updateProduct(id, data).subscribe((product) => {
       const productIndex = this.products.findIndex((oldData) => oldData.id === product.id);
       this.products[productIndex] = product;
