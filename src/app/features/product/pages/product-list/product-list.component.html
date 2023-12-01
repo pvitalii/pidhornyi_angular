@@ -1,0 +1,16 @@
+<section class="main-section" appLoading>
+  <aside>
+    <app-product-filters (selectedTags)="filter($event)"></app-product-filters>
+  </aside>
+  <section class="product-section">
+    <ul class="product-grid">
+      <li class="product-item" *ngFor="let product of products | async"><a [routerLink]='"product/" + product?.id' class="product-link"><app-product-item [product]="product"></app-product-item></a></li>
+      <li class="add-list-item">
+        <a routerLink="add-product" class="add-product-link">
+          <app-add-card [direction]="(products | async)!.length > 0 ? 'column' : 'row'"></app-add-card>
+        </a>
+      </li>
+    </ul>
+  </section>
+</section>
+

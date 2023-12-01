@@ -1,0 +1,13 @@
+<div appLoading>
+  <ul class="tag-list">
+    <li *ngFor="let tag of tags | async">
+      <app-tag-item [tag]="tag" [canManage]="!isFormActive"></app-tag-item>
+    </li>
+    <li class="tag-form" [ngClass]="isFormActive ? 'active' : 'disabled'">
+      <app-tag-form (isActive)="isFormActive = $event" (tagData)="addTag($event)"></app-tag-form>
+    </li>
+    <li>
+      <app-add-card (click)="isFormActive = true"></app-add-card>
+    </li>
+  </ul>
+</div>

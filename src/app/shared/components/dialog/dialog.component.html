@@ -1,0 +1,10 @@
+<div class="dialog-wrapper">
+  <h1 mat-dialog-title>{{title}}</h1>
+  <div mat-dialog-content>
+    {{content}}
+  </div>
+  <div mat-dialog-actions class="dialog-btn-group">
+    <button mat-flat-button color="warn" mat-dialog-close>No</button>
+    <button mat-flat-button color="primary" mat-dialog-close cdkFocusInitial [attr.form]="formId" type="submit" (click)="onConfirmClick()">Yes</button>
+  </div>
+</div>

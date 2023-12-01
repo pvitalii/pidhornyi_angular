@@ -1,0 +1,17 @@
+<mat-card class="tag-form-wrapper">
+  <form [formGroup]="tagForm" (ngSubmit)="onSubmit()" class="tag-form">
+    <input id="name" class="tag-input" #tagInput formControlName="name" autocomplete="off">
+    <label for="color" class="color-label">Tag color</label>
+    <div class="color-input-wrapper">
+      <input id="color" type="color" formControlName="color" class="color-input">
+    </div>
+    <div class="tag-btn-group">
+      <button mat-fab color="alert" aria-label="done" type="submit" class="done-btn">
+        <mat-icon>done</mat-icon>
+      </button>
+      <button mat-fab color="warn" aria-label="clear" type="button" (click)="onCancel()">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </div>
+  </form>
+</mat-card>

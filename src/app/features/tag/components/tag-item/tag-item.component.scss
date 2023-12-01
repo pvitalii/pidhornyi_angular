@@ -1,0 +1,18 @@
+.tag-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag-btn-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tag-name {
+  color: white;
+}

@@ -1,0 +1,14 @@
+<mat-card class="tag-wrapper" *ngIf="!isEdit; else elseBlock" appHighlight [highlightColor]="tag?.color" [ngStyle]="{ 'background-color': tag?.color}">
+  <span class="tag-name">{{tag?.name}}</span>
+  <div class="tag-btn-group">
+    <button mat-fab color="alert" aria-label="edit button" (click)="editMode()">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-fab color="warn" aria-label="delete button" (click)="deleteTag(tag!.id)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</mat-card>
+<ng-template #elseBlock>
+  <app-tag-form (isActive)="isEdit = $event" [tag]="tag" (tagData)="updateTag(tag!.id, $event)"></app-tag-form>
+</ng-template>

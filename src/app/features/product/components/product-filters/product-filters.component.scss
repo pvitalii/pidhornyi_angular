@@ -1,0 +1,51 @@
+@import 'styles/_vars.scss';
+
+.filters-heading {
+  text-align: center;
+}
+
+.clear-filters-btn {
+  width: 100%;
+}
+
+.filters-aside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar-filters {
+  position: absolute;
+  top: $header-height;
+  left: 0;
+  transform: translateX(-100%);
+  z-index: 2;
+  background-color: white;
+  padding: 2rem;
+  border: 2px solid grey;
+  border-radius: 0 10px 10px 0;
+  transition: 500ms;
+}
+
+.sidebar-filters.active {
+  transform: translateX(0);
+}
+
+.sidebar-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.filters-btn-span {
+  font-size: 1.25rem;
+  margin-left: 1rem;
+}
+
+.close-sidebar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0.75rem 0.5rem 0 0;
+  cursor: pointer;
+}

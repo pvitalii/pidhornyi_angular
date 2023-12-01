@@ -1,0 +1,59 @@
+.tag-input {
+  outline: none;
+  border: none;
+  border-bottom: 1px solid;
+  align-self: center;
+  width: 100%;
+  background-color: none;
+}
+
+.tag-form {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.tag-form-wrapper {
+  padding: 1rem;
+}
+
+.done-btn {
+  background-color: green;
+  color: white;
+}
+
+.tag-form-error {
+  font-size: small;
+  color: red;
+}
+
+.color-input-wrapper {
+  height: 1rem;
+  width: 1rem;
+  overflow: hidden;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.color-input-wrapper input[type=color] {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  border: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.color-label {
+  position: absolute;
+  font-size: 0.6rem;
+  top: 0;
+  margin: 0.1rem 0 0 0.1rem;
+}

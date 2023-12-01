@@ -1,0 +1,25 @@
+.add-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  height: 100%;
+  cursor: pointer;
+}
+
+.add-btn {
+  background-color: green;
+  color: white;
+}
+
+.add-card.column {
+  flex-direction: column;
+
+}
+
+.add-card.row {
+  flex-direction: row;
+  padding: 1rem 2rem;
+  justify-content: space-between;
+
+}

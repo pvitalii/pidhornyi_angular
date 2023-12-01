@@ -1,0 +1,26 @@
+.tag-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1.5rem;
+}
+
+.add-btn {
+  background-color: green;
+}
+
+.add-tag-card {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 1rem 2rem;
+  align-items: center;
+  cursor: pointer;
+}
+
+.tag-form.active {
+  display: block;
+}
+
+.tag-form.disabled {
+  display: none;
+}

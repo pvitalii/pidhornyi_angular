@@ -1,0 +1,21 @@
+<div [appShowOnScreenWidth]="{ from: 769, to: 5000 }" class="filters-aside">
+  <ng-content *ngTemplateOutlet="filters"></ng-content>
+</div>
+<div [appShowOnScreenWidth]="{ from: 0, to: 768 }" class="sidebar-wrapper">
+  <button mat-fab color="primary" aria-label="filters" (click)="isSidebar = true">
+    <mat-icon>filter_list</mat-icon>
+  </button>
+  <span class="filters-btn-span">Filters</span>
+  <div class="sidebar-filters filters-aside" [ngClass]="isSidebar ? 'active' : ''">
+    <span class="close-sidebar" (click)="isSidebar = false"><mat-icon>close</mat-icon></span>
+    <ng-content *ngTemplateOutlet="filters"></ng-content>
+  </div>
+</div>
+
+<ng-template #filters>
+    <p class="filters-heading">Filters</p>
+    <mat-selection-list #shoes [(ngModel)]="selectValue" (ngModelChange)="onChange()">
+      <mat-list-option *ngFor="let tag of tags | async" [value]="tag">{{tag.name}}</mat-list-option>
+    </mat-selection-list>
+    <button mat-flat-button color="accent" (click)="clear()">Clear</button>
+</ng-template>

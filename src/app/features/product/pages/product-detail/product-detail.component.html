@@ -1,0 +1,25 @@
+<div appLoading>
+  <h1 class="page-heading">{{(product | async)?.name}}</h1>
+  <div class="product-container">
+    <picture class="product-picture">
+      <img src="assets/w_320.jpg" alt="product" loading="lazy">
+    </picture>
+    <div class="product-info-section">
+      <p><span class="product-info">Description:</span> {{(product | async)?.description}}</p>
+      <p><span class="product-info">Price:</span> {{(product | async)?.price}} $</p>
+      <div>
+        <span class="product-info">Tags:</span>
+        <ul class="detail-tag-list">
+          <li class="detail-tag-item" *ngFor="let tag of (product | async)?.tags"
+            [ngStyle]="{ 'background-color': tag?.color }">{{tag?.name}}</li>
+        </ul>
+      </div>
+      <div class="product-btn-group">
+        <a mat-raised-button color="primary" class="product-btn"
+          [routerLink]='"/edit-product/" + (product | async)?.id'>Edit</a>
+        <button mat-raised-button color="warn" class="product-btn" (click)="openDialog('0ms', '0ms')">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+

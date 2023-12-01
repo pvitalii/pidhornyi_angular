@@ -1,0 +1,25 @@
+@import 'styles/_breakpoints.scss';
+
+.product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: auto;
+}
+
+.product-submit-btn {
+  padding-block: 2rem;
+  font-size: 1rem;
+}
+
+@media (min-width: $sm) {
+  .product-form {
+    width: 75%;
+  }
+}
+
+@media (min-width: $lg) {
+  .product-form {
+    width: 50%;
+  }
+}

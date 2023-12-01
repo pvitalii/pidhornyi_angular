@@ -1,0 +1,4 @@
+<div appLoading>
+  <h1 class="page-heading">Edit {{(product | async)?.name}}</h1>
+  <app-product-form [product]="(product)" (formData)="updateProduct($event)" [openDialog]="openDialog"></app-product-form>
+</div>
