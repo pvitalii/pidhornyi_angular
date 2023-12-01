@@ -5,8 +5,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## How to run the solution
 1. git clone https://github.com/pvitalii/pidhornyi_angular
 2. cd pidhornyi_angular
-3. ng serve
-4. project will start on http://localhost:4200
+3. npm install
+4. ng serve
+5. project will start on http://localhost:4200
 
 ## Functionality
 
