@@ -7,6 +7,7 @@ import { TagStoreService } from '../../../tag/services/tag-store.service';
 import { Router } from '@angular/router';
 import { FormUtilsService } from 'app/shared/utils/form-utils.service';
 import { ProductPayload } from '../../interfaces/product-payload';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-product-form',
@@ -15,7 +16,7 @@ import { ProductPayload } from '../../interfaces/product-payload';
 })
 export class ProductFormComponent implements OnInit {
 
-  constructor(private tagService: TagStoreService, private router: Router, private formUtils: FormUtilsService) {}
+  constructor(private tagService: TagStoreService, private router: Router, private formUtils: FormUtilsService, private dialog: MatDialog) {}
 
   @Input() product?: Observable<Product>;
   @Input({ required: true }) openDialog: ((enterAnimationDuration: string, exitAnimationDuration: string) => void) = () => {};
