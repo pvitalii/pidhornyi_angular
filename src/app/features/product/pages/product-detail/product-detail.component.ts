@@ -62,6 +62,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.dialogSubscription?.unsubscribe();
     this.tagApi.destroy$.next();
+    this.tagApi.destroy$.complete();
     this.productApi.destroy$.next();
+    this.productApi.destroy$.complete();
   }
 }

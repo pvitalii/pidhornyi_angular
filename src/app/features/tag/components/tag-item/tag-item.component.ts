@@ -33,5 +33,6 @@ export class TagItemComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.tagApi.destroy$.next();
+    this.tagApi.destroy$.complete();
   }
 }

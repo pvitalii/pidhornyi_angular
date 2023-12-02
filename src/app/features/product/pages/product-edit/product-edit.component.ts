@@ -48,5 +48,6 @@ export class ProductEditComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.productApi.destroy$.next();
+    this.productApi.destroy$.complete();
   }
 }

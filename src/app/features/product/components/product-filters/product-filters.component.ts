@@ -49,5 +49,6 @@ export class ProductFiltersComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.tagApi.destroy$.next();
+    this.tagApi.destroy$.complete();
   }
 }

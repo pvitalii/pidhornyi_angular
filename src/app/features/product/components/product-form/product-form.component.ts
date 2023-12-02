@@ -95,6 +95,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.tagApi.destroy$.next();
+    this.tagApi.destroy$.complete();
     this.productSubscription?.unsubscribe();
   }
 }
