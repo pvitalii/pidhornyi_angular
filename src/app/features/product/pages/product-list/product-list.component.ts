@@ -1,21 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductStoreService } from '../../services/product-store.service';
 import { Tag } from '../../../tag/interfaces/tag.model';
+import { ProductApiService } from '../../services/product-api.service';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss'
 })
-export class ProductListComponent implements OnInit {
-  constructor(private productService: ProductStoreService) {}
+export class ProductListComponent implements OnInit, OnDestroy {
+  constructor(private productApi: ProductApiService, private productStore: ProductStoreService) {}
 
-  public products = this.productService.products$;
+  public products = this.productStore.products$;
 
   filter(data: Tag[]) {
-    this.products = this.productService.filterProducts(data);
+    this.products = this.productStore.filterProducts(data);
   }
+  
   ngOnInit(): void {
-    this.productService.loadProducts();
+    if(!this.productStore.isLoaded) {
+      this.productApi.getProducts().subscribe();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.productApi.destroy$.next();
   }
 }

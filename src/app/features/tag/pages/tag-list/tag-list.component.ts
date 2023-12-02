@@ -1,23 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TagStoreService } from '../../services/tag-store.service';
 import { TagPayload } from '../../interfaces/tag-payload';
+import { TagApiService } from '../../services/tag-api.service';
 
 @Component({
   selector: 'app-tag-list',
   templateUrl: './tag-list.component.html',
   styleUrl: './tag-list.component.scss'
 })
-export class TagListComponent implements OnInit {
-  constructor(private tagService: TagStoreService) {}
-  
-  public tags = this.tagService.tags$;
+export class TagListComponent implements OnInit, OnDestroy {
+  constructor(private tagApi: TagApiService, private tagStore: TagStoreService) {}
+
+  public tags = this.tagStore.tags$;
   public isFormActive = false;
 
   public addTag(data: TagPayload) {
-    this.tagService.addTag(data);
+    this.tagApi.addTag(data).subscribe();
   }
   
   ngOnInit(): void {
-    this.tagService.loadTags();
+    if(!this.tagStore.isLoaded) {
+      this.tagApi.getTags().subscribe();
+    }
   }
+  
+  ngOnDestroy(): void {
+    this.tagApi.destroy$.next();
+  }
+
 }

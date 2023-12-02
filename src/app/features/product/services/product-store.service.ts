@@ -1,71 +1,51 @@
 import { Injectable } from "@angular/core";
-import { ProductApiService } from "./product-api.service";
 import { BehaviorSubject, map } from "rxjs";
 import { Product } from "../interfaces/product.model";
-import { Tag } from "../../tag/interfaces/tag.model";
-import { TagApiService } from "app/features/tag/services/tag-api.service";
-import { ProductPayload } from "../interfaces/product-payload";
+import { Tag } from "app/features/tag/interfaces/tag.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductStoreService {
-  constructor(private productApiService: ProductApiService, private tagService: TagApiService) {}
+  constructor() {}
 
   private readonly _products$ = new BehaviorSubject<Product[]>([]);
   private readonly _productDetail$ = new BehaviorSubject<Product>({} as Product);
 
-  public readonly products$ = this._products$.asObservable(); 
+  public readonly products$ = this._products$.asObservable();
   public readonly productDetail$ = this._productDetail$.asObservable();
+
+  private _isLoaded = false;
+
+  public get isLoaded() {
+    return this._isLoaded;
+  }
   
-  private isLoaded = false;
-  
-  get products() {
+  public get products() {
     return this._products$.getValue();
   }
 
-  get productDetail() {
-    return this._productDetail$.getValue();
+  public set products(products: Product[]) {
+    this._isLoaded = true;
+    this._products$.next(products);
   }
 
-  public loadProducts() {
-    if(!this.isLoaded) {
-      return this.productApiService.getProducts().subscribe((products) => {
-        this._products$.next(products);
-        this.isLoaded = true;
-      })
-    }
-    return;
+  public set productDetail(product: Product) {
+    this._productDetail$.next(product);
   }
 
-  public getProductById(id: number) {
-    return this.tagService.getTags().subscribe((tags) => {
-      this.productApiService.getProductById(id).pipe(map((product) => {
-        return { ...product, tags: product.tags.map((tag) => tags.find((newTag) => newTag.id === tag?.id)).filter((tag) => tag !== undefined)}
-      })).subscribe((newProduct) => {
-        this._productDetail$.next(newProduct);
-      })
-    });
+  public addProduct(product: Product) {
+    this._products$.next([...this.products, product]);
   }
 
-  public addProduct(product: ProductPayload) {
-    return this.productApiService.addProduct(product).subscribe((product) => {
-      this._products$.next([...this.products, product]);      
-    });
-  }
-
-  public updateProduct(id: number, data: ProductPayload) {
-    return this.productApiService.updateProduct(id, data).subscribe((product) => {
-      const productIndex = this.products.findIndex((oldData) => oldData.id === product.id);
-      this.products[productIndex] = product;
-      this._products$.next(this.products);
-    });
+  public updateProduct(product: Product) {
+    const productIndex = this.products.findIndex((oldData) => oldData.id === product.id);
+    this.products[productIndex] = product;
+    this._products$.next(this.products);
   }
 
   public deleteProduct(id: number) {
-    return this.productApiService.deleteProduct(id).subscribe(() => {
-      this._products$.next([...this.products.filter((oldData) => oldData.id !== id)]);
-    });
+    this._products$.next([...this.products.filter((oldData) => oldData.id !== id)]);
   }
 
   public filterProducts(tags: Tag[]) {

@@ -1,20 +1,23 @@
-import { Component } from '@angular/core';
-import { ProductStoreService } from '../../services/product-store.service';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'app/shared/components/dialog/dialog.component';
 import { ProductPayload } from '../../interfaces/product-payload';
+import { ProductApiService } from '../../services/product-api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-add',
   templateUrl: './product-add.component.html',
   styleUrl: './product-add.component.scss'
 })
-export class ProductAddComponent {
+export class ProductAddComponent implements OnDestroy {
 
-  constructor(private productService: ProductStoreService, public dialog: MatDialog) {}
+  constructor(private productApi: ProductApiService, private router: Router, public dialog: MatDialog) {}
 
   public addProduct(data: ProductPayload) {
-    this.productService.addProduct(data);
+    this.productApi.addProduct(data).subscribe(() => {
+      this.router.navigate(['/']);
+    });
   }
 
   public openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
@@ -27,4 +30,7 @@ export class ProductAddComponent {
     dialogRef.componentInstance.formId = 'productForm';
   }
 
+  ngOnDestroy(): void {
+    this.productApi.destroy$.next();
+  }
 }

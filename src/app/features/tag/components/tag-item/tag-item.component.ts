@@ -1,15 +1,15 @@
-import { Component, Input } from '@angular/core';
-import { TagStoreService } from '../../services/tag-store.service';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { Tag } from '../../interfaces/tag.model';
 import { TagPayload } from '../../interfaces/tag-payload';
+import { TagApiService } from '../../services/tag-api.service';
 
 @Component({
   selector: 'app-tag-item',
   templateUrl: './tag-item.component.html',
   styleUrl: './tag-item.component.scss'
 })
-export class TagItemComponent {
-  constructor(private tagService: TagStoreService) {}
+export class TagItemComponent implements OnDestroy {
+  constructor(private tagApi: TagApiService) {}
 
   @Input({ required: true }) tag: Tag | undefined;
   @Input({ required: true }) canManage: boolean | undefined;
@@ -22,12 +22,16 @@ export class TagItemComponent {
   }
 
   public updateTag(id: number, data: TagPayload) {
-    this.tagService.updateTag(id, data);
+    this.tagApi.updateTag(id, data).subscribe()
   }
 
   public deleteTag(id: number) {
     if(this.canManage) {
-      this.tagService.deleteTag(id);
+      this.tagApi.deleteTag(id).subscribe();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.tagApi.destroy$.next();
   }
 }

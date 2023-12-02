@@ -1,28 +1,31 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Product } from '../../interfaces/product.model';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Tag } from '../../../tag/interfaces/tag.model';
 import { TagStoreService } from '../../../tag/services/tag-store.service';
 import { Router } from '@angular/router';
 import { FormUtilsService } from 'app/shared/utils/form-utils.service';
 import { ProductPayload } from '../../interfaces/product-payload';
 import { MatDialog } from '@angular/material/dialog';
+import { TagApiService } from 'app/features/tag/services/tag-api.service';
 
 @Component({
   selector: 'app-product-form',
   templateUrl: './product-form.component.html',
   styleUrl: './product-form.component.scss',
 })
-export class ProductFormComponent implements OnInit {
+export class ProductFormComponent implements OnInit, OnDestroy {
 
-  constructor(private tagService: TagStoreService, private router: Router, private formUtils: FormUtilsService, private dialog: MatDialog) {}
+  constructor(private tagApi: TagApiService, private tagStore: TagStoreService, private router: Router, private formUtils: FormUtilsService, private dialog: MatDialog) {}
 
   @Input() product?: Observable<Product>;
   @Input({ required: true }) openDialog: ((enterAnimationDuration: string, exitAnimationDuration: string) => void) = () => {};
   @Output() formData = new EventEmitter<ProductPayload>();
 
-  public tags = this.tagService.tags$;
+  public tags = this.tagStore.tags$;
+
+  private productSubscription?: Subscription;
 
   public productForm = new FormGroup(
     {
@@ -76,16 +79,22 @@ export class ProductFormComponent implements OnInit {
   public onFormSubmit() {
     if(this.productForm.valid) {
       this.formData.emit(this.productForm.getRawValue());
-      this.router.navigate(['/']);
     }
   }
 
   public getErrorMessage = this.formUtils.getErrorMessage;
 
   ngOnInit(): void {
-    this.tagService.loadTags();
-    this.product?.subscribe((product) => {
+    if(this.tagStore.tags.length === 0) {
+      this.tagApi.getTags().subscribe();
+    }
+    this.productSubscription = this.product?.subscribe((product) => {
       this.productForm.patchValue(product);
-    });
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.tagApi.destroy$.next();
+    this.productSubscription?.unsubscribe();
   }
 }
