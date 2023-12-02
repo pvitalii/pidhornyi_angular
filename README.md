@@ -33,3 +33,8 @@ Besides the loading-spinner i have mentioned before, i also provided some additi
   - dialog to confirm action: after every action with product, such as edit, add, delete, will be shown a dialog modal, on which user should confirm his action.
   - on the main page, when screen gets narrower, filters hides in hidden sidebar which diplays after appropriate button has been pressed.   
 
+### 5. Store
+In order to prevent unnecessary http requests and store some data in memory, I provided store services for each feature using rxjs. State of each feature is stored using BehaviorSubject and after http request, state are updated by tap operator in api services.
+
+### 6. Unsubscription
+Even though we don't have to unsubscribe from HttpClient observables because they are don't lead to memory leak, it's still recommended to unsubscribe from all observables, so I provided unsubscribtions from http observables using takeUntil operator and unsubscribe method for all other subscriptions.
